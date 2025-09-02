@@ -65,14 +65,15 @@ def test_cascade_delete(api_client, question, user):
     assert response.status_code == status.HTTP_204_NO_CONTENT
     # проверяем, что ответы удалились каскадно
     assert Answer.objects.filter(question=question).count() == 0
-#
-#
-# """Тест: один пользователь может оставлять несколько ответов"""
-# @pytest.mark.django_db
-# def test_multiple_answers_same_user(api_client, question, user_id):
-#     url = f"/questions/{question.id}/answers/"
-#     data1 = {"user_id": user_id, "text": "Ответ 1"}
-#     data2 = {"user_id": user_id, "text": "Ответ 2"}
-#     api_client.post(url, data1, format="json")
-#     api_client.post(url, data2, format="json")
-#     assert Answer.objects.filter(question=question, user_id=user_id).count() == 2
+
+
+
+@pytest.mark.django_db
+def test_multiple_answers_same_user(api_client, question, user):
+    """Тест: один пользователь может оставлять несколько ответов"""
+    url = f"/questions/{question.id}/answers/"
+    data1 = {"user": user.id, "text": "Ответ 1"}
+    data2 = {"user": user.id, "text": "Ответ 2"}
+    api_client.post(url, data1, format="json")
+    api_client.post(url, data2, format="json")
+    assert Answer.objects.filter(question=question, user=user).count() == 2
