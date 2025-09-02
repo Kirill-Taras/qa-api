@@ -1,24 +1,26 @@
 import pytest
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from users.models import User
-from .models import Question, Answer
+
+from .models import Answer, Question
+
 
 @pytest.fixture
 def api_client():
     return APIClient()
 
+
 @pytest.fixture
 def question():
     return Question.objects.create(text="Тестовый вопрос")
 
+
 @pytest.fixture
 def user():
-    return User.objects.create_user(
-        email="testuser@test.com",
-        password="password123"
-    )
+    return User.objects.create_user(email="testuser@test.com", password="password123")
+
 
 @pytest.mark.django_db
 def test_create_question(api_client):
@@ -65,7 +67,6 @@ def test_cascade_delete(api_client, question, user):
     assert response.status_code == status.HTTP_204_NO_CONTENT
     # проверяем, что ответы удалились каскадно
     assert Answer.objects.filter(question=question).count() == 0
-
 
 
 @pytest.mark.django_db

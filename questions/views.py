@@ -1,18 +1,21 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
-from .models import Question, Answer
-from .serializers import QuestionSerializer, AnswerSerializer
+
+from .models import Answer, Question
+from .serializers import AnswerSerializer, QuestionSerializer
 
 
 class QuestionListCreateView(generics.ListCreateAPIView):
     """GET: список вопросов, POST: создать вопрос"""
+
     queryset = Question.objects.all().order_by("-created_at")
     serializer_class = QuestionSerializer
 
 
 class QuestionDetailView(generics.RetrieveDestroyAPIView):
     """GET: получить вопрос с ответами, DELETE: удалить вопрос"""
+
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
@@ -29,6 +32,7 @@ class QuestionDetailView(generics.RetrieveDestroyAPIView):
 
 class AnswerCreateView(generics.CreateAPIView):
     """POST: добавить ответ к вопросу"""
+
     serializer_class = AnswerSerializer
 
     def perform_create(self, serializer):
@@ -38,6 +42,6 @@ class AnswerCreateView(generics.CreateAPIView):
 
 class AnswerDetailView(generics.RetrieveDestroyAPIView):
     """GET: получить ответ, DELETE: удалить ответ"""
+
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
-

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from users.models import User
-from .models import Question, Answer
+
+from .models import Answer, Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -26,7 +27,9 @@ class AnswerSerializer(serializers.ModelSerializer):
     """
     Сериализатор для ответов.
     """
+
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = Answer
         fields = ("id", "question", "user", "text", "created_at")
@@ -45,6 +48,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         Проверяем, что user не пустой.
         """
         if value is None:
-            raise serializers.ValidationError("Ответ должен быть привязан к пользователю.")
+            raise serializers.ValidationError(
+                "Ответ должен быть привязан к пользователю."
+            )
         return value
-

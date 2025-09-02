@@ -51,8 +51,8 @@ class User(AbstractUser):
     username = None  # убираем стандартное поле username
     email = models.EmailField(unique=True)
 
-    USERNAME_FIELD = "email"   # поле для авторизации
-    REQUIRED_FIELDS = []       # дополнительные обязательные поля (пусто)
+    USERNAME_FIELD = "email"  # поле для авторизации
+    REQUIRED_FIELDS = []  # дополнительные обязательные поля (пусто)
 
     objects = UserManager()
 
