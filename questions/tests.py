@@ -34,11 +34,8 @@ def test_create_question(api_client):
 def test_add_answer(api_client, question, user):
     """Тест добавления ответа"""
     url = f"/questions/{question.id}/answers/"
-    print(question.id)
     data = {"user": user.id, "text": "Ответ на вопрос"}
-    print(data)
     response = api_client.post(url, data, format="json")
-    print(response)
     assert response.status_code == status.HTTP_201_CREATED
     answer = Answer.objects.get(text="Ответ на вопрос")
     assert answer.question == question
@@ -53,20 +50,21 @@ def test_add_answer_to_nonexistent_question(api_client, user):
     response = api_client.post(url, data, format="json")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-# """Тест каскадного удаления"""
-# @pytest.mark.django_db
-# def test_cascade_delete(api_client, question, user_id):
-#     # создаём несколько ответов
-#     Answer.objects.create(question=question, user_id=user_id, text="Ответ 1")
-#     Answer.objects.create(question=question, user_id=user_id, text="Ответ 2")
-#     assert Answer.objects.filter(question=question).count() == 2
-#
-#     # удаляем вопрос
-#     url = f"/questions/{question.id}/"
-#     response = api_client.delete(url)
-#     assert response.status_code == status.HTTP_204_NO_CONTENT
-#     # проверяем, что ответы удалились каскадно
-#     assert Answer.objects.filter(question=question).count() == 0
+
+@pytest.mark.django_db
+def test_cascade_delete(api_client, question, user):
+    """Тест каскадного удаления"""
+    # создаём несколько ответов
+    Answer.objects.create(question=question, user=user, text="Ответ 1")
+    Answer.objects.create(question=question, user=user, text="Ответ 2")
+    assert Answer.objects.filter(question=question).count() == 2
+
+    # удаляем вопрос
+    url = f"/questions/{question.id}/"
+    response = api_client.delete(url)
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    # проверяем, что ответы удалились каскадно
+    assert Answer.objects.filter(question=question).count() == 0
 #
 #
 # """Тест: один пользователь может оставлять несколько ответов"""
