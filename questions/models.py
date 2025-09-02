@@ -1,5 +1,9 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
+
+from users.models import User
 
 
 class Question(models.Model):
@@ -8,8 +12,8 @@ class Question(models.Model):
     Каждый вопрос имеет текст и дату создания.
     """
 
-    text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    text: str = models.TextField()
+    created_at: "datetime" = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Вопрос"
@@ -25,18 +29,18 @@ class Answer(models.Model):
     Ответ привязан к конкретному вопросу и пользователю.
     """
 
-    question = models.ForeignKey(
+    question: Question = models.ForeignKey(
         Question,
         related_name="answers",
         on_delete=models.CASCADE,  # при удалении вопроса удаляются ответы
     )
-    user = models.ForeignKey(
+    user: User = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="answers",
         on_delete=models.CASCADE,  # при удалении юзера удаляются его ответы
     )
-    text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    text: str = models.TextField()
+    created_at: "datetime" = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Ответ"

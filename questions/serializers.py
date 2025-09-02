@@ -14,7 +14,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ("id", "text", "created_at")
 
-    def validate_text(self, value):
+    def validate_text(self, value: str) -> str:
         """
         Проверяем, что текст вопроса не пустой.
         """
@@ -35,7 +35,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = ("id", "question", "user", "text", "created_at")
         read_only_fields = ["id", "question", "created_at"]
 
-    def validate_text(self, value):
+    def validate_text(self, value: str) -> str:
         """
         Проверяем, что текст ответа не пустой.
         """
@@ -43,7 +43,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Текст ответа не может быть пустым.")
         return value
 
-    def validate_user(self, value):
+    def validate_user(self, value: User) -> User:
         """
         Проверяем, что user не пустой.
         """
