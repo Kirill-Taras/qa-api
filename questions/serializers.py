@@ -28,6 +28,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ("id", "question", "user", "text", "created_at")
+        read_only_fields = ["id", "question", "created_at"]
 
     def validate_text(self, value):
         """

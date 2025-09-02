@@ -11,6 +11,10 @@ class Question(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Вопрос"
+        verbose_name_plural = "Вопросы"
+
     def __str__(self):
         return self.text[:50]  # показываем первые 50 символов
 
@@ -33,6 +37,10 @@ class Answer(models.Model):
     )
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Ответ"
+        verbose_name_plural = "Ответы"
 
     def __str__(self):
         return f"{self.user.email}: {self.text[:30]}"  # email + первые 30 символов
