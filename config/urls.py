@@ -5,8 +5,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     # API пользователей
-    path("api/users/", include("users.urls")),
+    path("users/", include("users.urls")),
 
     # API вопросов и ответов
-    path("api/", include("questions.urls")),
+    path("", include("questions.urls")),
 ]
