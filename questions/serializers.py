@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from users.models import User
 from .models import Question, Answer
 
 
@@ -24,7 +26,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     """
     Сериализатор для ответов.
     """
-
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     class Meta:
         model = Answer
         fields = ("id", "question", "user", "text", "created_at")

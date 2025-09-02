@@ -32,8 +32,8 @@ class AnswerCreateView(generics.CreateAPIView):
     serializer_class = AnswerSerializer
 
     def perform_create(self, serializer):
-        question_id = get_object_or_404(Question, pk=self.kwargs.get("pk"))
-        serializer.save(question_id=question_id)
+        question = get_object_or_404(Question, pk=self.kwargs.get("pk"))
+        serializer.save(question=question)
 
 
 class AnswerDetailView(generics.RetrieveDestroyAPIView):
