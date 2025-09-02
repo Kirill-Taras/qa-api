@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Question, Answer
@@ -31,7 +32,7 @@ class AnswerCreateView(generics.CreateAPIView):
     serializer_class = AnswerSerializer
 
     def perform_create(self, serializer):
-        question_id = self.kwargs.get("pk")
+        question_id = get_object_or_404(Question, pk=self.kwargs.get("pk"))
         serializer.save(question_id=question_id)
 
 
