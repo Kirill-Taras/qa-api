@@ -45,15 +45,14 @@ def test_add_answer(api_client, question, user):
     assert answer.user.id == user.id
 
 
+@pytest.mark.django_db
+def test_add_answer_to_nonexistent_question(api_client, user):
+    """Тест добавления ответа к несуществующему вопросу"""
+    url = "/questions/999/answers/"
+    data = {"user": user.id, "text": "Ответ"}
+    response = api_client.post(url, data, format="json")
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
-# @pytest.mark.django_db
-# def test_add_answer_to_nonexistent_question(api_client, user_id):
-#     """Тест добавления ответа к несуществующему вопросу"""
-#     url = "/questions/999/answers/"
-#     data = {"user_id": user_id, "text": "Ответ"}
-#     response = api_client.post(url, data, format="json")
-#     assert response.status_code == status.HTTP_404_NOT_FOUND
-#
 # """Тест каскадного удаления"""
 # @pytest.mark.django_db
 # def test_cascade_delete(api_client, question, user_id):
