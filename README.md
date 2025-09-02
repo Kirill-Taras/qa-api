@@ -15,7 +15,7 @@
 1. **Клонируем репозиторий:**
 
 ```bash
-git clone <url_репозитория>
+git clone git@github.com:Kirill-Taras/qa-api.git
 cd qa-api
 ```
 
