@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
 
 class Question(models.Model):
@@ -28,12 +28,12 @@ class Answer(models.Model):
     question = models.ForeignKey(
         Question,
         related_name="answers",
-        on_delete=models.CASCADE  # при удалении вопроса удаляются ответы
+        on_delete=models.CASCADE,  # при удалении вопроса удаляются ответы
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="answers",
-        on_delete=models.CASCADE  # при удалении юзера удаляются его ответы
+        on_delete=models.CASCADE,  # при удалении юзера удаляются его ответы
     )
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
